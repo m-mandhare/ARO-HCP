@@ -319,6 +319,7 @@ defaults:
     maxActiveTimeSeries: 2000000
     maxEventsPerMinute: 2000000
     alertRuleOwningTeamTag: ""
+    skipDatasourceSync: false
     alertsEnabled: false
     icm:
       manageConnection: true
@@ -1477,6 +1478,8 @@ clouds:
               alertsEnabled: true
       prow:
         defaults:
+          monitoring:
+            skipDatasourceSync: true
           kusto:
             manageInstance: false
           auditLogsEventHub:
