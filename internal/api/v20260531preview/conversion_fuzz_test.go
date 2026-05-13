@@ -1,4 +1,4 @@
-// Copyright 2025 Microsoft Corporation
+// Copyright 2026 Microsoft Corporation
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import (
 	azcorearm "github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 
 	"github.com/Azure/ARO-HCP/internal/api"
-	"github.com/Azure/ARO-HCP/internal/ocm"
 )
 
 func TestRoundTripInternalExternalInternal(t *testing.T) {
@@ -67,18 +66,25 @@ func TestRoundTripInternalExternalInternal(t *testing.T) {
 			// Conditions are read-only and not accepted from client input in ConvertToInternal
 			j.Conditions = nil
 		},
+		func(j *api.HCPOpenShiftClusterNodePoolProperties, c randfill.Continue) {
+			c.FillNoCustom(j)
+			// Conditions are read-only and not accepted from client input in ConvertToInternal
+			j.Conditions = nil
+		},
+		func(j *api.HCPOpenShiftClusterExternalAuthProperties, c randfill.Continue) {
+			c.FillNoCustom(j)
+			// The singular Condition field does not exist in this API version
+			j.Condition = api.ExternalAuthCondition{}
+			// Conditions are read-only and not accepted from client input in ConvertToInternal
+			j.Conditions = nil
+		},
 		func(j *api.HCPOpenShiftClusterNodePoolServiceProviderProperties, c randfill.Continue) {
 			c.FillNoCustom(j)
 			// ActiveOperationID does not roundtrip through the external type because it is purely an internal detail
 			j.ActiveOperationID = ""
 			// ClusterServiceID does not roundtrip through the external type because it is purely an internal detail
-			j.ClusterServiceID = ocm.InternalID{}
+			j.ClusterServiceID = nil
 			j.ExistingCosmosUID = ""
-		},
-		func(j *api.HCPOpenShiftClusterNodePoolProperties, c randfill.Continue) {
-			c.FillNoCustom(j)
-			// Conditions are read-only and not accepted from client input in ConvertToInternal
-			j.Conditions = nil
 		},
 		func(j *api.HCPOpenShiftClusterExternalAuthServiceProviderProperties, c randfill.Continue) {
 			c.FillNoCustom(j)
@@ -87,13 +93,6 @@ func TestRoundTripInternalExternalInternal(t *testing.T) {
 			// ClusterServiceID does not roundtrip through the external type because it is purely an internal detail
 			j.ClusterServiceID = nil
 			j.ExistingCosmosUID = ""
-		},
-		func(j *api.HCPOpenShiftClusterExternalAuthProperties, c randfill.Continue) {
-			c.FillNoCustom(j)
-			// The singular Condition field does not exist in this API version
-			j.Condition = api.ExternalAuthCondition{}
-			// Conditions are read-only and not accepted from client input in ConvertToInternal
-			j.Conditions = nil
 		},
 		func(j *api.CustomerManagedEncryptionProfile, c randfill.Continue) {
 			c.FillNoCustom(j)

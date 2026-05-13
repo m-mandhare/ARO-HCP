@@ -209,8 +209,9 @@ func clusterCreatePayload(clusterName, apiVersion string) []byte {
   "type": "Microsoft.RedHatOpenShift/hcpOpenShiftClusters"
 }`, clusterName, subscriptionID, subscriptionID))
 
-	case v2025:
+	case v2025, v2026:
 		// v2025 payload — includes all optional fields (autoscaling, nodeDrainTimeoutMinutes)
+		// v2026 payload - current the same as 2025, includes conditions as read only field
 		return []byte(fmt.Sprintf(`{
   "identity": {
     "type": "UserAssigned",
@@ -434,8 +435,9 @@ func nodePoolCreatePayload(nodePoolName, apiVersion string) []byte {
   "type": "Microsoft.RedHatOpenShift/hcpOpenShiftClusters/nodePools"
 }`, nodePoolName, subscriptionID))
 
-	case v2025:
+	case v2025, v2026:
 		// v2025 payload — includes all optional fields (osDisk.diskStorageAccountType, diskType, nodeDrainTimeoutMinutes)
+		// v2026 payload - current the same as 2025, includes conditions as read only field
 		return []byte(fmt.Sprintf(`{
   "name": "%s",
   "properties": {

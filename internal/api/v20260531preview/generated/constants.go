@@ -13,7 +13,7 @@ const (
 
 // PossibleActionTypeValues returns the possible values for the ActionType const type.
 func PossibleActionTypeValues() []ActionType {
-	return []ActionType{	
+	return []ActionType{
 		ActionTypeInternal,
 	}
 }
@@ -25,15 +25,15 @@ func PossibleActionTypeValues() []ActionType {
 type ClusterImageRegistryState string
 
 const (
-// ClusterImageRegistryStateDisabled - The ImageStream-backed image registry will not be present in the cluster
+	// ClusterImageRegistryStateDisabled - The ImageStream-backed image registry will not be present in the cluster
 	ClusterImageRegistryStateDisabled ClusterImageRegistryState = "Disabled"
-// ClusterImageRegistryStateEnabled - The ImageStream-backed image registry will be run as pods on worker nodes
+	// ClusterImageRegistryStateEnabled - The ImageStream-backed image registry will be run as pods on worker nodes
 	ClusterImageRegistryStateEnabled ClusterImageRegistryState = "Enabled"
 )
 
 // PossibleClusterImageRegistryStateValues returns the possible values for the ClusterImageRegistryState const type.
 func PossibleClusterImageRegistryStateValues() []ClusterImageRegistryState {
-	return []ClusterImageRegistryState{	
+	return []ClusterImageRegistryState{
 		ClusterImageRegistryStateDisabled,
 		ClusterImageRegistryStateEnabled,
 	}
@@ -43,17 +43,17 @@ func PossibleClusterImageRegistryStateValues() []ClusterImageRegistryState {
 type ConditionType string
 
 const (
-// ConditionTypeAvailable - Indicates that the resource is available.
+	// ConditionTypeAvailable - Indicates that the resource is available.
 	ConditionTypeAvailable ConditionType = "Available"
-// ConditionTypeDegraded - Indicates that the resource is in a degraded state.
+	// ConditionTypeDegraded - Indicates that the resource is in a degraded state.
 	ConditionTypeDegraded ConditionType = "Degraded"
-// ConditionTypeProgressing - Indicates that the resource is in a progressing state.
+	// ConditionTypeProgressing - Indicates that the resource is in a progressing state.
 	ConditionTypeProgressing ConditionType = "Progressing"
 )
 
 // PossibleConditionTypeValues returns the possible values for the ConditionType const type.
 func PossibleConditionTypeValues() []ConditionType {
-	return []ConditionType{	
+	return []ConditionType{
 		ConditionTypeAvailable,
 		ConditionTypeDegraded,
 		ConditionTypeProgressing,
@@ -64,15 +64,15 @@ func PossibleConditionTypeValues() []ConditionType {
 type CreatedByType string
 
 const (
-	CreatedByTypeApplication CreatedByType = "Application"
-	CreatedByTypeKey CreatedByType = "Key"
+	CreatedByTypeApplication     CreatedByType = "Application"
+	CreatedByTypeKey             CreatedByType = "Key"
 	CreatedByTypeManagedIdentity CreatedByType = "ManagedIdentity"
-	CreatedByTypeUser CreatedByType = "User"
+	CreatedByTypeUser            CreatedByType = "User"
 )
 
 // PossibleCreatedByTypeValues returns the possible values for the CreatedByType const type.
 func PossibleCreatedByTypeValues() []CreatedByType {
-	return []CreatedByType{	
+	return []CreatedByType{
 		CreatedByTypeApplication,
 		CreatedByTypeKey,
 		CreatedByTypeManagedIdentity,
@@ -84,13 +84,13 @@ func PossibleCreatedByTypeValues() []CreatedByType {
 type CustomerManagedEncryptionType string
 
 const (
-// CustomerManagedEncryptionTypeKms - KMS encryption type.
+	// CustomerManagedEncryptionTypeKms - KMS encryption type.
 	CustomerManagedEncryptionTypeKms CustomerManagedEncryptionType = "KMS"
 )
 
 // PossibleCustomerManagedEncryptionTypeValues returns the possible values for the CustomerManagedEncryptionType const type.
 func PossibleCustomerManagedEncryptionTypeValues() []CustomerManagedEncryptionType {
-	return []CustomerManagedEncryptionType{	
+	return []CustomerManagedEncryptionType{
 		CustomerManagedEncryptionTypeKms,
 	}
 }
@@ -100,17 +100,17 @@ func PossibleCustomerManagedEncryptionTypeValues() []CustomerManagedEncryptionTy
 type DiskStorageAccountType string
 
 const (
-// DiskStorageAccountTypePremiumLRS - Premium SSD with Locally Redundant Storage (LRS)
+	// DiskStorageAccountTypePremiumLRS - Premium SSD with Locally Redundant Storage (LRS)
 	DiskStorageAccountTypePremiumLRS DiskStorageAccountType = "Premium_LRS"
-// DiskStorageAccountTypeStandardLRS - Standard HDD with Locally Redundant Storage (LRS)
+	// DiskStorageAccountTypeStandardLRS - Standard HDD with Locally Redundant Storage (LRS)
 	DiskStorageAccountTypeStandardLRS DiskStorageAccountType = "Standard_LRS"
-// DiskStorageAccountTypeStandardSSDLRS - Standard SSD with Locally Redundant Storage (LRS)
+	// DiskStorageAccountTypeStandardSSDLRS - Standard SSD with Locally Redundant Storage (LRS)
 	DiskStorageAccountTypeStandardSSDLRS DiskStorageAccountType = "StandardSSD_LRS"
 )
 
 // PossibleDiskStorageAccountTypeValues returns the possible values for the DiskStorageAccountType const type.
 func PossibleDiskStorageAccountTypeValues() []DiskStorageAccountType {
-	return []DiskStorageAccountType{	
+	return []DiskStorageAccountType{
 		DiskStorageAccountTypePremiumLRS,
 		DiskStorageAccountTypeStandardLRS,
 		DiskStorageAccountTypeStandardSSDLRS,
@@ -121,17 +121,17 @@ func PossibleDiskStorageAccountTypeValues() []DiskStorageAccountType {
 type Effect string
 
 const (
-// EffectNoExecute - NoExecute taint effect
+	// EffectNoExecute - NoExecute taint effect
 	EffectNoExecute Effect = "NoExecute"
-// EffectNoSchedule - NoSchedule taint effect
+	// EffectNoSchedule - NoSchedule taint effect
 	EffectNoSchedule Effect = "NoSchedule"
-// EffectPreferNoSchedule - PreferNoSchedule taint effect
+	// EffectPreferNoSchedule - PreferNoSchedule taint effect
 	EffectPreferNoSchedule Effect = "PreferNoSchedule"
 )
 
 // PossibleEffectValues returns the possible values for the Effect const type.
 func PossibleEffectValues() []Effect {
-	return []Effect{	
+	return []Effect{
 		EffectNoExecute,
 		EffectNoSchedule,
 		EffectPreferNoSchedule,
@@ -143,15 +143,15 @@ func PossibleEffectValues() []Effect {
 type EtcdDataEncryptionKeyManagementModeType string
 
 const (
-// EtcdDataEncryptionKeyManagementModeTypeCustomerManaged - Customer managed encryption key management mode type.
+	// EtcdDataEncryptionKeyManagementModeTypeCustomerManaged - Customer managed encryption key management mode type.
 	EtcdDataEncryptionKeyManagementModeTypeCustomerManaged EtcdDataEncryptionKeyManagementModeType = "CustomerManaged"
-// EtcdDataEncryptionKeyManagementModeTypePlatformManaged - Platform managed encryption key management mode type.
+	// EtcdDataEncryptionKeyManagementModeTypePlatformManaged - Platform managed encryption key management mode type.
 	EtcdDataEncryptionKeyManagementModeTypePlatformManaged EtcdDataEncryptionKeyManagementModeType = "PlatformManaged"
 )
 
 // PossibleEtcdDataEncryptionKeyManagementModeTypeValues returns the possible values for the EtcdDataEncryptionKeyManagementModeType const type.
 func PossibleEtcdDataEncryptionKeyManagementModeTypeValues() []EtcdDataEncryptionKeyManagementModeType {
-	return []EtcdDataEncryptionKeyManagementModeType{	
+	return []EtcdDataEncryptionKeyManagementModeType{
 		EtcdDataEncryptionKeyManagementModeTypeCustomerManaged,
 		EtcdDataEncryptionKeyManagementModeTypePlatformManaged,
 	}
@@ -161,18 +161,18 @@ func PossibleEtcdDataEncryptionKeyManagementModeTypeValues() []EtcdDataEncryptio
 type ExternalAuthClientType string
 
 const (
-// ExternalAuthClientTypeConfidential - Indicates that the client is confidential.
-// Confidential clients must provide a client secret.
-// The secret should be provided within the cluster itself.
+	// ExternalAuthClientTypeConfidential - Indicates that the client is confidential.
+	// Confidential clients must provide a client secret.
+	// The secret should be provided within the cluster itself.
 	ExternalAuthClientTypeConfidential ExternalAuthClientType = "Confidential"
-// ExternalAuthClientTypePublic - Indicates that the client is public.
-// Public clients must not provide a client secret.
+	// ExternalAuthClientTypePublic - Indicates that the client is public.
+	// Public clients must not provide a client secret.
 	ExternalAuthClientTypePublic ExternalAuthClientType = "Public"
 )
 
 // PossibleExternalAuthClientTypeValues returns the possible values for the ExternalAuthClientType const type.
 func PossibleExternalAuthClientTypeValues() []ExternalAuthClientType {
-	return []ExternalAuthClientType{	
+	return []ExternalAuthClientType{
 		ExternalAuthClientTypeConfidential,
 		ExternalAuthClientTypePublic,
 	}
@@ -182,27 +182,27 @@ func PossibleExternalAuthClientTypeValues() []ExternalAuthClientType {
 type ExternalAuthProvisioningState string
 
 const (
-// ExternalAuthProvisioningStateAccepted - Non-terminal state indicating the resource has been accepted
+	// ExternalAuthProvisioningStateAccepted - Non-terminal state indicating the resource has been accepted
 	ExternalAuthProvisioningStateAccepted ExternalAuthProvisioningState = "Accepted"
-// ExternalAuthProvisioningStateAwaitingSecret - Non-terminal state indicating the resource is awaiting secret
+	// ExternalAuthProvisioningStateAwaitingSecret - Non-terminal state indicating the resource is awaiting secret
 	ExternalAuthProvisioningStateAwaitingSecret ExternalAuthProvisioningState = "AwaitingSecret"
-// ExternalAuthProvisioningStateCanceled - Resource creation was canceled.
+	// ExternalAuthProvisioningStateCanceled - Resource creation was canceled.
 	ExternalAuthProvisioningStateCanceled ExternalAuthProvisioningState = "Canceled"
-// ExternalAuthProvisioningStateDeleting - Non-terminal state indicating the resource is deleting
+	// ExternalAuthProvisioningStateDeleting - Non-terminal state indicating the resource is deleting
 	ExternalAuthProvisioningStateDeleting ExternalAuthProvisioningState = "Deleting"
-// ExternalAuthProvisioningStateFailed - Resource creation failed.
+	// ExternalAuthProvisioningStateFailed - Resource creation failed.
 	ExternalAuthProvisioningStateFailed ExternalAuthProvisioningState = "Failed"
-// ExternalAuthProvisioningStateProvisioning - Non-terminal state indicating the resource is provisioning
+	// ExternalAuthProvisioningStateProvisioning - Non-terminal state indicating the resource is provisioning
 	ExternalAuthProvisioningStateProvisioning ExternalAuthProvisioningState = "Provisioning"
-// ExternalAuthProvisioningStateSucceeded - Resource has been created.
+	// ExternalAuthProvisioningStateSucceeded - Resource has been created.
 	ExternalAuthProvisioningStateSucceeded ExternalAuthProvisioningState = "Succeeded"
-// ExternalAuthProvisioningStateUpdating - Non-terminal state indicating the resource is updating
+	// ExternalAuthProvisioningStateUpdating - Non-terminal state indicating the resource is updating
 	ExternalAuthProvisioningStateUpdating ExternalAuthProvisioningState = "Updating"
 )
 
 // PossibleExternalAuthProvisioningStateValues returns the possible values for the ExternalAuthProvisioningState const type.
 func PossibleExternalAuthProvisioningStateValues() []ExternalAuthProvisioningState {
-	return []ExternalAuthProvisioningState{	
+	return []ExternalAuthProvisioningState{
 		ExternalAuthProvisioningStateAccepted,
 		ExternalAuthProvisioningStateAwaitingSecret,
 		ExternalAuthProvisioningStateCanceled,
@@ -218,15 +218,15 @@ func PossibleExternalAuthProvisioningStateValues() []ExternalAuthProvisioningSta
 type KeyVaultVisibility string
 
 const (
-// KeyVaultVisibilityPrivate - The keyvault is not visible from the internet.
+	// KeyVaultVisibilityPrivate - The keyvault is not visible from the internet.
 	KeyVaultVisibilityPrivate KeyVaultVisibility = "Private"
-// KeyVaultVisibilityPublic - The keyvault is visible from the internet.
+	// KeyVaultVisibilityPublic - The keyvault is visible from the internet.
 	KeyVaultVisibilityPublic KeyVaultVisibility = "Public"
 )
 
 // PossibleKeyVaultVisibilityValues returns the possible values for the KeyVaultVisibility const type.
 func PossibleKeyVaultVisibilityValues() []KeyVaultVisibility {
-	return []KeyVaultVisibility{	
+	return []KeyVaultVisibility{
 		KeyVaultVisibilityPrivate,
 		KeyVaultVisibilityPublic,
 	}
@@ -236,15 +236,15 @@ func PossibleKeyVaultVisibilityValues() []KeyVaultVisibility {
 type ManagedServiceIdentityType string
 
 const (
-	ManagedServiceIdentityTypeNone ManagedServiceIdentityType = "None"
-	ManagedServiceIdentityTypeSystemAssigned ManagedServiceIdentityType = "SystemAssigned"
+	ManagedServiceIdentityTypeNone                       ManagedServiceIdentityType = "None"
+	ManagedServiceIdentityTypeSystemAssigned             ManagedServiceIdentityType = "SystemAssigned"
 	ManagedServiceIdentityTypeSystemAssignedUserAssigned ManagedServiceIdentityType = "SystemAssigned,UserAssigned"
-	ManagedServiceIdentityTypeUserAssigned ManagedServiceIdentityType = "UserAssigned"
+	ManagedServiceIdentityTypeUserAssigned               ManagedServiceIdentityType = "UserAssigned"
 )
 
 // PossibleManagedServiceIdentityTypeValues returns the possible values for the ManagedServiceIdentityType const type.
 func PossibleManagedServiceIdentityTypeValues() []ManagedServiceIdentityType {
-	return []ManagedServiceIdentityType{	
+	return []ManagedServiceIdentityType{
 		ManagedServiceIdentityTypeNone,
 		ManagedServiceIdentityTypeSystemAssigned,
 		ManagedServiceIdentityTypeSystemAssignedUserAssigned,
@@ -256,15 +256,15 @@ func PossibleManagedServiceIdentityTypeValues() []ManagedServiceIdentityType {
 type NetworkType string
 
 const (
-// NetworkTypeOVNKubernetes - The OVN network plugin for the OpenShift cluster
+	// NetworkTypeOVNKubernetes - The OVN network plugin for the OpenShift cluster
 	NetworkTypeOVNKubernetes NetworkType = "OVNKubernetes"
-// NetworkTypeOther - Other network plugins
+	// NetworkTypeOther - Other network plugins
 	NetworkTypeOther NetworkType = "Other"
 )
 
 // PossibleNetworkTypeValues returns the possible values for the NetworkType const type.
 func PossibleNetworkTypeValues() []NetworkType {
-	return []NetworkType{	
+	return []NetworkType{
 		NetworkTypeOVNKubernetes,
 		NetworkTypeOther,
 	}
@@ -274,16 +274,16 @@ func PossibleNetworkTypeValues() []NetworkType {
 type OperatorIdentityRequired string
 
 const (
-// OperatorIdentityRequiredAlways - Indicates the identity is always required.
+	// OperatorIdentityRequiredAlways - Indicates the identity is always required.
 	OperatorIdentityRequiredAlways OperatorIdentityRequired = "Always"
-// OperatorIdentityRequiredOnEnablement - Indicates the identity is only required when a functionality that leverages the
-// operator is enabled.
+	// OperatorIdentityRequiredOnEnablement - Indicates the identity is only required when a functionality that leverages the
+	// operator is enabled.
 	OperatorIdentityRequiredOnEnablement OperatorIdentityRequired = "OnEnablement"
 )
 
 // PossibleOperatorIdentityRequiredValues returns the possible values for the OperatorIdentityRequired const type.
 func PossibleOperatorIdentityRequiredValues() []OperatorIdentityRequired {
-	return []OperatorIdentityRequired{	
+	return []OperatorIdentityRequired{
 		OperatorIdentityRequiredAlways,
 		OperatorIdentityRequiredOnEnablement,
 	}
@@ -294,14 +294,14 @@ func PossibleOperatorIdentityRequiredValues() []OperatorIdentityRequired {
 type Origin string
 
 const (
-	OriginSystem Origin = "system"
-	OriginUser Origin = "user"
+	OriginSystem     Origin = "system"
+	OriginUser       Origin = "user"
 	OriginUserSystem Origin = "user,system"
 )
 
 // PossibleOriginValues returns the possible values for the Origin const type.
 func PossibleOriginValues() []Origin {
-	return []Origin{	
+	return []Origin{
 		OriginSystem,
 		OriginUser,
 		OriginUserSystem,
@@ -313,18 +313,18 @@ func PossibleOriginValues() []Origin {
 type OsDiskType string
 
 const (
-// OsDiskTypeEphemeral - Ephemeral OS disk - stored on local VM cache/temporary storage.
-// Provides lower latency and faster node operations.
-// Requires VM with sufficient cache size.
+	// OsDiskTypeEphemeral - Ephemeral OS disk - stored on local VM cache/temporary storage.
+	// Provides lower latency and faster node operations.
+	// Requires VM with sufficient cache size.
 	OsDiskTypeEphemeral OsDiskType = "Ephemeral"
-// OsDiskTypeManaged - Managed OS disk - stored as an Azure managed disk (network-attached).
-// Default behavior for VMs without sufficient cache.
+	// OsDiskTypeManaged - Managed OS disk - stored as an Azure managed disk (network-attached).
+	// Default behavior for VMs without sufficient cache.
 	OsDiskTypeManaged OsDiskType = "Managed"
 )
 
 // PossibleOsDiskTypeValues returns the possible values for the OsDiskType const type.
 func PossibleOsDiskTypeValues() []OsDiskType {
-	return []OsDiskType{	
+	return []OsDiskType{
 		OsDiskTypeEphemeral,
 		OsDiskTypeManaged,
 	}
@@ -334,13 +334,13 @@ func PossibleOsDiskTypeValues() []OsDiskType {
 type OutboundType string
 
 const (
-// OutboundTypeLoadBalancer - The load balancer configuration
+	// OutboundTypeLoadBalancer - The load balancer configuration
 	OutboundTypeLoadBalancer OutboundType = "LoadBalancer"
 )
 
 // PossibleOutboundTypeValues returns the possible values for the OutboundType const type.
 func PossibleOutboundTypeValues() []OutboundType {
-	return []OutboundType{	
+	return []OutboundType{
 		OutboundTypeLoadBalancer,
 	}
 }
@@ -349,25 +349,25 @@ func PossibleOutboundTypeValues() []OutboundType {
 type ProvisioningState string
 
 const (
-// ProvisioningStateAccepted - Non-terminal state indicating the resource has been accepted
+	// ProvisioningStateAccepted - Non-terminal state indicating the resource has been accepted
 	ProvisioningStateAccepted ProvisioningState = "Accepted"
-// ProvisioningStateCanceled - Resource creation was canceled.
+	// ProvisioningStateCanceled - Resource creation was canceled.
 	ProvisioningStateCanceled ProvisioningState = "Canceled"
-// ProvisioningStateDeleting - Non-terminal state indicating the resource is deleting
+	// ProvisioningStateDeleting - Non-terminal state indicating the resource is deleting
 	ProvisioningStateDeleting ProvisioningState = "Deleting"
-// ProvisioningStateFailed - Resource creation failed.
+	// ProvisioningStateFailed - Resource creation failed.
 	ProvisioningStateFailed ProvisioningState = "Failed"
-// ProvisioningStateProvisioning - Non-terminal state indicating the resource is provisioning
+	// ProvisioningStateProvisioning - Non-terminal state indicating the resource is provisioning
 	ProvisioningStateProvisioning ProvisioningState = "Provisioning"
-// ProvisioningStateSucceeded - Resource has been created.
+	// ProvisioningStateSucceeded - Resource has been created.
 	ProvisioningStateSucceeded ProvisioningState = "Succeeded"
-// ProvisioningStateUpdating - Non-terminal state indicating the resource is updating
+	// ProvisioningStateUpdating - Non-terminal state indicating the resource is updating
 	ProvisioningStateUpdating ProvisioningState = "Updating"
 )
 
 // PossibleProvisioningStateValues returns the possible values for the ProvisioningState const type.
 func PossibleProvisioningStateValues() []ProvisioningState {
-	return []ProvisioningState{	
+	return []ProvisioningState{
 		ProvisioningStateAccepted,
 		ProvisioningStateCanceled,
 		ProvisioningStateDeleting,
@@ -382,17 +382,17 @@ func PossibleProvisioningStateValues() []ProvisioningState {
 type StatusType string
 
 const (
-// StatusTypeFalse - Indicates that the condition status is False.
+	// StatusTypeFalse - Indicates that the condition status is False.
 	StatusTypeFalse StatusType = "False"
-// StatusTypeTrue - Indicates that the condition status is True.
+	// StatusTypeTrue - Indicates that the condition status is True.
 	StatusTypeTrue StatusType = "True"
-// StatusTypeUnknown - Indicates that the condition status is unknown.
+	// StatusTypeUnknown - Indicates that the condition status is unknown.
 	StatusTypeUnknown StatusType = "Unknown"
 )
 
 // PossibleStatusTypeValues returns the possible values for the StatusType const type.
 func PossibleStatusTypeValues() []StatusType {
-	return []StatusType{	
+	return []StatusType{
 		StatusTypeFalse,
 		StatusTypeTrue,
 		StatusTypeUnknown,
@@ -403,15 +403,15 @@ func PossibleStatusTypeValues() []StatusType {
 type TokenValidationRuleType string
 
 const (
-// TokenValidationRuleTypeRequiredClaim - Indicates that a Required Claim validation rule.
-// When set to 'RequiredClaim', the Kubernetes API server will be configured to validate that the incoming JWT
-// contains the required claim and that its value matches the required value.
+	// TokenValidationRuleTypeRequiredClaim - Indicates that a Required Claim validation rule.
+	// When set to 'RequiredClaim', the Kubernetes API server will be configured to validate that the incoming JWT
+	// contains the required claim and that its value matches the required value.
 	TokenValidationRuleTypeRequiredClaim TokenValidationRuleType = "RequiredClaim"
 )
 
 // PossibleTokenValidationRuleTypeValues returns the possible values for the TokenValidationRuleType const type.
 func PossibleTokenValidationRuleTypeValues() []TokenValidationRuleType {
-	return []TokenValidationRuleType{	
+	return []TokenValidationRuleType{
 		TokenValidationRuleTypeRequiredClaim,
 	}
 }
@@ -420,17 +420,17 @@ func PossibleTokenValidationRuleTypeValues() []TokenValidationRuleType {
 type UsernameClaimPrefixPolicy string
 
 const (
-// UsernameClaimPrefixPolicyNoPrefix - Do not add a prefix to the JWT claim
+	// UsernameClaimPrefixPolicyNoPrefix - Do not add a prefix to the JWT claim
 	UsernameClaimPrefixPolicyNoPrefix UsernameClaimPrefixPolicy = "NoPrefix"
-// UsernameClaimPrefixPolicyNone - No opinion; the platform is left to choose a prefix for the JWT claim
+	// UsernameClaimPrefixPolicyNone - No opinion; the platform is left to choose a prefix for the JWT claim
 	UsernameClaimPrefixPolicyNone UsernameClaimPrefixPolicy = "None"
-// UsernameClaimPrefixPolicyPrefix - Add a user-provided prefix to the JWT claim
+	// UsernameClaimPrefixPolicyPrefix - Add a user-provided prefix to the JWT claim
 	UsernameClaimPrefixPolicyPrefix UsernameClaimPrefixPolicy = "Prefix"
 )
 
 // PossibleUsernameClaimPrefixPolicyValues returns the possible values for the UsernameClaimPrefixPolicy const type.
 func PossibleUsernameClaimPrefixPolicyValues() []UsernameClaimPrefixPolicy {
-	return []UsernameClaimPrefixPolicy{	
+	return []UsernameClaimPrefixPolicy{
 		UsernameClaimPrefixPolicyNoPrefix,
 		UsernameClaimPrefixPolicyNone,
 		UsernameClaimPrefixPolicyPrefix,
@@ -441,17 +441,16 @@ func PossibleUsernameClaimPrefixPolicyValues() []UsernameClaimPrefixPolicy {
 type Visibility string
 
 const (
-// VisibilityPrivate - The API server is not visible from the internet.
+	// VisibilityPrivate - The API server is not visible from the internet.
 	VisibilityPrivate Visibility = "Private"
-// VisibilityPublic - The API server is visible from the internet.
+	// VisibilityPublic - The API server is visible from the internet.
 	VisibilityPublic Visibility = "Public"
 )
 
 // PossibleVisibilityValues returns the possible values for the Visibility const type.
 func PossibleVisibilityValues() []Visibility {
-	return []Visibility{	
+	return []Visibility{
 		VisibilityPrivate,
 		VisibilityPublic,
 	}
 }
-

@@ -413,4 +413,3 @@ func validateExternalAuthCondition(ctx context.Context, op operation.Operation, 
 
 	return errs
 }
-
