@@ -1575,6 +1575,8 @@ clouds:
       ci01:
         # prow infra shard1 - deploys into "ARO HCP E2E Infrastructure" subscription
         defaults:
+          monitoring:
+            skipDatasourceSync: true
           # Service Key Vault
           serviceKeyVault:
             assignNSP: false
