@@ -252,10 +252,10 @@ func TestClusterUpdateDispatchConfigFromCSRoundTrip(t *testing.T) {
 	}
 	spc := &api.ServiceProviderCluster{}
 
-	clusterBuilder, autoscalerBuilder, err := BuildCSCluster(resourceID, api.TestTenantID, hcpCluster, nil, oldClusterServiceCluster, spc)
+	clusterBuilder, err := BuildCSCluster(resourceID, api.TestTenantID, hcpCluster, nil, oldClusterServiceCluster, spc)
 	require.NoError(t, err)
 
-	csCluster, err := clusterBuilder.Autoscaler(autoscalerBuilder).Build()
+	csCluster, err := clusterBuilder.Build()
 	require.NoError(t, err)
 
 	actualConfig, err := clusterUpdateDispatchConfigFromCS(csCluster)
@@ -287,10 +287,10 @@ func TestClusterUpdateDispatchConfigFromCSRoundTripServiceProviderClusterSize(t 
 		},
 	}
 
-	clusterBuilder, autoscalerBuilder, err := BuildCSCluster(nil, "11111111-1111-1111-1111-111111111111", hcpCluster, nil, oldClusterServiceCluster, spc)
+	clusterBuilder, err := BuildCSCluster(nil, "11111111-1111-1111-1111-111111111111", hcpCluster, nil, oldClusterServiceCluster, spc)
 	require.NoError(t, err)
 
-	csCluster, err := clusterBuilder.Autoscaler(autoscalerBuilder).Build()
+	csCluster, err := clusterBuilder.Build()
 	require.NoError(t, err)
 
 	actualConfig, err := clusterUpdateDispatchConfigFromCS(csCluster)
@@ -510,10 +510,11 @@ func TestClusterUpdateDispatchConfigJSONFromRPAndCS(t *testing.T) {
 	oldClusterServiceCluster, err := arohcpv1alpha1.NewCluster().Build()
 	require.NoError(t, err)
 
-	clusterBuilder, autoscalerBuilder, err := BuildCSCluster(nil, "11111111-1111-1111-1111-111111111111", hcpCluster, nil, oldClusterServiceCluster, spc)
+	clusterBuilder, err := BuildCSCluster(nil, "11111111-1111-1111-1111-111111111111", hcpCluster, nil, oldClusterServiceCluster, spc)
 
 	require.NoError(t, err)
-	csCluster, err := clusterBuilder.Autoscaler(autoscalerBuilder).Build()
+
+	csCluster, err := clusterBuilder.Build()
 	require.NoError(t, err)
 
 	desiredJSON, err := ClusterUpdateDispatchConfigJSONFromRP(hcpCluster, spc)
@@ -987,7 +988,9 @@ func TestClusterUpdateDispatchConfigImageDigestMirrorsFromCS(t *testing.T) {
 	}
 }
 
-func TestClusterUpdateDispatchConfigAutoscalerBuilder(t *testing.T) {
+func TestClusterUpdateDispatchConfigApplyToCSBuildersAutoscaling(t *testing.T) {
+	clusterBuilder := arohcpv1alpha1.NewCluster()
+	clusterAPIBuilder := arohcpv1alpha1.NewClusterAPI()
 	config := clusterUpdateDispatchConfig{
 		Autoscaling: clusterUpdateDispatchConfigAutoscaling{
 			MaxNodesTotal:               12,
@@ -997,13 +1000,13 @@ func TestClusterUpdateDispatchConfigAutoscalerBuilder(t *testing.T) {
 		},
 	}
 
-	builder, err := config.autoscalerBuilder()
+	err := config.applyToCSBuilders(clusterBuilder, clusterAPIBuilder, map[string]string{})
 	require.NoError(t, err)
 
-	autoscaler, err := builder.Build()
+	csCluster, err := clusterBuilder.Build()
 	require.NoError(t, err)
 
-	got, err := clusterUpdateDispatchConfigAutoscalingFromCS(autoscaler)
+	got, err := clusterUpdateDispatchConfigAutoscalingFromCS(csCluster.Autoscaler())
 	require.NoError(t, err)
 	assert.Equal(t, config.Autoscaling, got)
 }

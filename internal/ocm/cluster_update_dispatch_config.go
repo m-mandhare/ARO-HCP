@@ -75,7 +75,7 @@ import (
 //     Do not embed internal/api struct types.
 //   - Populate it in clusterUpdateDispatchConfigFromRP. This ensures RP projection works correctly
 //   - Populate it in clusterUpdateDispatchConfigFromCS. This ensures CS projection works correctly
-//   - Apply it in applyToCSBuilders and/or autoscalerBuilder. This ensures the CS builders work correctly.
+//   - Apply it in applyToCSBuilders (including nested autoscaler on the cluster builder).
 //
 // 2. Operation state wiring (backend/pkg/controllers/operationcontrollers/operation_cluster_update.go)
 //
@@ -461,14 +461,14 @@ func (c *clusterUpdateDispatchConfig) applyToCSBuilders(clusterBuilder *arohcpv1
 	}
 	clusterBuilder.Properties(baseProperties)
 
-	return nil
-}
+	// The autoscaler is nested on the cluster builder.
+	autoscalerBuilder, err := convertRpAutoscalarToCSBuilder(ptr.To(clusterUpdateDispatchConfigAutoscalingToRP(c.Autoscaling)))
+	if err != nil {
+		return err
+	}
+	clusterBuilder.Autoscaler(autoscalerBuilder)
 
-// autoscalerBuilder builds the Cluster Service autoscaler update payload from the dispatch
-// config autoscaling fields.
-func (c *clusterUpdateDispatchConfig) autoscalerBuilder() (*arohcpv1alpha1.ClusterAutoscalerBuilder, error) {
-	profile := clusterUpdateDispatchConfigAutoscalingToRP(c.Autoscaling)
-	return convertRpAutoscalarToCSBuilder(&profile)
+	return nil
 }
 
 // clusterUpdateDispatchConfigImageDigestMirrorsToRP converts dispatch image mirrors into

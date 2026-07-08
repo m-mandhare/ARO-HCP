@@ -1169,7 +1169,7 @@ func TestBuildCSCluster(t *testing.T) {
 			require.NoError(t, err)
 
 			// Build actual CS cluster
-			actualClusterBuilder, actualAutoscalerBuilder, err := BuildCSCluster(resourceID, api.TestTenantID, hcpCluster, tc.requiredProperties, tc.oldClusterServiceCluster, nil)
+			actualClusterBuilder, err := BuildCSCluster(resourceID, api.TestTenantID, hcpCluster, tc.requiredProperties, tc.oldClusterServiceCluster, nil)
 
 			if tc.expectedError != "" {
 				require.Error(t, err)
@@ -1183,7 +1183,7 @@ func TestBuildCSCluster(t *testing.T) {
 			expected, err := tc.expectedCSCluster.Build()
 			require.NoError(t, err)
 
-			actual, err := actualClusterBuilder.Autoscaler(actualAutoscalerBuilder).Build()
+			actual, err := actualClusterBuilder.Build()
 			require.NoError(t, err)
 
 			// Compare

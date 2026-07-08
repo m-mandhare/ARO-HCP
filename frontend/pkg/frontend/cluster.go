@@ -378,12 +378,12 @@ func (f *Frontend) createHCPCluster(writer http.ResponseWriter, request *http.Re
 	if f.clusterServiceNoopDeprovision {
 		initialClusterProperties[ocm.CSPropertyNoopDeprovision] = ocm.CSPropertyEnabled
 	}
-	newClusterServiceClusterBuilder, newClusterServiceAutoscalerBuilder, err := ocm.BuildCSCluster(newInternalCluster.ID, tenantID, newInternalCluster, initialClusterProperties, nil, nil)
+	newClusterServiceClusterBuilder, err := ocm.BuildCSCluster(newInternalCluster.ID, tenantID, newInternalCluster, initialClusterProperties, nil, nil)
 	if err != nil {
 		return utils.TrackError(err)
 	}
 	logger.Info(fmt.Sprintf("creating resource %s", newInternalCluster.ID))
-	resultingClusterServiceCluster, err := f.clusterServiceClient.PostCluster(ctx, newClusterServiceClusterBuilder, newClusterServiceAutoscalerBuilder)
+	resultingClusterServiceCluster, err := f.clusterServiceClient.PostCluster(ctx, newClusterServiceClusterBuilder)
 	if err != nil {
 		return utils.TrackError(err)
 	}
@@ -666,16 +666,12 @@ func (f *Frontend) updateHCPClusterInCosmos(ctx context.Context, writer http.Res
 		if err != nil {
 			return utils.TrackError(err)
 		}
-		newClusterServiceClusterBuilder, newClusterServiceAutoscalerBuilder, err := ocm.BuildCSCluster(oldInternalCluster.ID, tenantID, newInternalCluster, nil, oldClusterServiceCluster, admissionContext.ServiceProviderCluster)
+		newClusterServiceClusterBuilder, err := ocm.BuildCSCluster(oldInternalCluster.ID, tenantID, newInternalCluster, nil, oldClusterServiceCluster, admissionContext.ServiceProviderCluster)
 		if err != nil {
 			return utils.TrackError(err)
 		}
 
 		logger.Info(fmt.Sprintf("updating resource %s", oldInternalCluster.ID))
-		_, err = f.clusterServiceClient.UpdateClusterAutoscaler(ctx, *oldInternalCluster.ServiceProviderProperties.ClusterServiceID, newClusterServiceAutoscalerBuilder)
-		if err != nil {
-			return utils.TrackError(err)
-		}
 		_, err = f.clusterServiceClient.UpdateCluster(ctx, *oldInternalCluster.ServiceProviderProperties.ClusterServiceID, newClusterServiceClusterBuilder)
 		if err != nil {
 			return utils.TrackError(err)
