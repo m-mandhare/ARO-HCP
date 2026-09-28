@@ -178,15 +178,16 @@ func TestExternalAuthOIDCClientsDegradedController_SyncOnce(t *testing.T) {
 			name:                        "skip when ServiceProviderExternalAuth not yet created",
 			externalAuth:                newTestExternalAuthForDegraded(),
 			serviceProviderExternalAuth: nil,
+			expectNoCondition:           true,
 			expectNoWrite:               true,
 		},
 		{
-			name: "no clients defined -> no conditions written",
+			name: "no clients defined -> no write",
 			externalAuth: newTestExternalAuthForDegraded(func(ea *coreapi.HCPOpenShiftClusterExternalAuth) {
 				ea.Properties.Clients = nil
 			}),
 			serviceProviderExternalAuth: newTestServiceProviderExternalAuth(),
-			expectNoCondition:           true,
+			expectNoWrite:               true,
 		},
 		{
 			name:                        "all healthy: Degraded=False, Available=True -> OIDCClientsDegraded=False",
@@ -552,6 +553,105 @@ func TestExternalAuthOIDCClientsDegradedController_SyncOnce(t *testing.T) {
 				status:  metav1.ConditionFalse,
 				reason:  coreapi.ExternalAuthOIDCClientsDegradedReasonAsExpected,
 				message: coreapi.ExternalAuthMessageAllOperational,
+			},
+		},
+		{
+			name: "no clients defined with pre-existing condition -> condition removed",
+			externalAuth: newTestExternalAuthForDegraded(func(ea *coreapi.HCPOpenShiftClusterExternalAuth) {
+				ea.Properties.Clients = nil
+			}),
+			serviceProviderExternalAuth: newTestServiceProviderExternalAuth(func(spea *coreapi.ServiceProviderExternalAuth) {
+				spea.Status.Conditions = []metav1.Condition{{
+					Type:    coreapi.ExternalAuthOIDCClientsDegradedCondition,
+					Status:  metav1.ConditionTrue,
+					Reason:  coreapi.ExternalAuthOIDCClientsDegradedReasonDegradation,
+					Message: "console: " + coreapi.ExternalAuthMessageAwaitingSecret,
+				}}
+			}),
+			expectNoCondition: true,
+		},
+		{
+			name: "public client: OIDCClientSecretGet skipped -> OIDCClientsDegraded=False",
+			externalAuth: newTestExternalAuthForDegraded(func(ea *coreapi.HCPOpenShiftClusterExternalAuth) {
+				ea.Properties.Clients = []coreapi.ExternalAuthClientProfile{{
+					Component: coreapi.ExternalAuthClientComponentProfile{
+						Name:                "cli",
+						AuthClientNamespace: "openshift-console",
+					},
+					Type: metadataapi.ExternalAuthClientTypePublic,
+				}}
+			}),
+			serviceProviderExternalAuth: newTestServiceProviderExternalAuth(),
+			hostedCluster: &v1beta1.HostedCluster{
+				Status: v1beta1.HostedClusterStatus{
+					Configuration: &v1beta1.ConfigurationStatus{
+						Authentication: configv1.AuthenticationStatus{
+							OIDCClients: []configv1.OIDCClientStatus{{
+								ComponentName:      "cli",
+								ComponentNamespace: "openshift-console",
+								Conditions: []metav1.Condition{
+									{Type: "Degraded", Status: metav1.ConditionTrue, Reason: coreapi.HostedClusterOIDCClientSecretGet, Message: "secret not found"},
+								},
+							}},
+						},
+					},
+				},
+			},
+			expectCondition: &expectedCondition{
+				status:  metav1.ConditionFalse,
+				reason:  coreapi.ExternalAuthOIDCClientsDegradedReasonAsExpected,
+				message: coreapi.ExternalAuthMessageAllOperational,
+			},
+		},
+		{
+			name: "multi-client: both report OIDCClientSecretGet -> only confidential client degraded",
+			externalAuth: newTestExternalAuthForDegraded(func(ea *coreapi.HCPOpenShiftClusterExternalAuth) {
+				ea.Properties.Clients = []coreapi.ExternalAuthClientProfile{
+					{
+						Component: coreapi.ExternalAuthClientComponentProfile{
+							Name:                "console",
+							AuthClientNamespace: "openshift-console",
+						},
+						Type: metadataapi.ExternalAuthClientTypeConfidential,
+					},
+					{
+						Component: coreapi.ExternalAuthClientComponentProfile{
+							Name:                "cli",
+							AuthClientNamespace: "openshift-console",
+						},
+						Type: metadataapi.ExternalAuthClientTypePublic,
+					},
+				}
+			}),
+			serviceProviderExternalAuth: newTestServiceProviderExternalAuth(),
+			hostedCluster: &v1beta1.HostedCluster{
+				Status: v1beta1.HostedClusterStatus{
+					Configuration: &v1beta1.ConfigurationStatus{
+						Authentication: configv1.AuthenticationStatus{
+							OIDCClients: []configv1.OIDCClientStatus{
+								{
+									ComponentName:      "console",
+									ComponentNamespace: "openshift-console",
+									Conditions: []metav1.Condition{
+										{Type: "Degraded", Status: metav1.ConditionTrue, Reason: coreapi.HostedClusterOIDCClientSecretGet, Message: "secret not found"},
+									},
+								},
+								{
+									ComponentName:      "cli",
+									ComponentNamespace: "openshift-console",
+									Conditions: []metav1.Condition{
+										{Type: "Degraded", Status: metav1.ConditionTrue, Reason: coreapi.HostedClusterOIDCClientSecretGet, Message: "secret not found"},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			expectCondition: &expectedCondition{
+				status:  metav1.ConditionTrue,
+				reason:  coreapi.ExternalAuthOIDCClientsDegradedReasonDegradation,
+				message: "console: " + coreapi.ExternalAuthMessageAwaitingSecret,
 			},
 		},
 		{

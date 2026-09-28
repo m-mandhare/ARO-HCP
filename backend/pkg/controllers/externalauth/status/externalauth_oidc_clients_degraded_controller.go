@@ -30,6 +30,7 @@ import (
 	"github.com/Azure/ARO-HCP/backend/pkg/kubeapplierhelpers"
 	"github.com/Azure/ARO-HCP/backend/pkg/utils/controllerutils"
 	"github.com/Azure/ARO-HCP/internal/api/coreapi"
+	"github.com/Azure/ARO-HCP/internal/api/metadataapi"
 	"github.com/Azure/ARO-HCP/internal/database/cosmosstorage/corecosmosstorage"
 	"github.com/Azure/ARO-HCP/internal/database/cosmosstorage/cosmosstorageutils"
 	"github.com/Azure/ARO-HCP/internal/database/informers/coreinformers"
@@ -127,12 +128,15 @@ func (c *externalAuthOIDCClientsDegradedController) SyncOnce(ctx context.Context
 	if err != nil {
 		return err
 	}
-	if condition == nil {
-		return nil
-	}
 
 	replacement := serviceProviderExternalAuth.DeepCopy()
-	apimeta.SetStatusCondition(&replacement.Status.Conditions, *condition)
+	if condition != nil {
+		apimeta.SetStatusCondition(&replacement.Status.Conditions, *condition)
+	} else {
+		// No clients declared — remove the managed condition if it exists,
+		// otherwise leave the SPEA unchanged.
+		apimeta.RemoveStatusCondition(&replacement.Status.Conditions, coreapi.ExternalAuthOIDCClientsDegradedCondition)
+	}
 	if equality.Semantic.DeepEqual(serviceProviderExternalAuth.Status.Conditions, replacement.Status.Conditions) {
 		return nil
 	}
@@ -173,6 +177,13 @@ func (c *externalAuthOIDCClientsDegradedController) determineOIDCClientsDegraded
 	)
 	if err != nil {
 		return nil, utils.TrackError(err)
+	}
+
+	// No clients declared — nothing to evaluate. Return nil so the caller
+	// can decide whether to leave the SPEA untouched or remove an existing
+	// managed condition.
+	if len(externalAuth.Properties.Clients) == 0 {
+		return nil, nil
 	}
 
 	var degradedMessages []degradedClientMessage
@@ -261,6 +272,11 @@ func oidcClientKey(name, namespace string) string {
 func mapSingleClientDegradation(conditions []metav1.Condition, client coreapi.ExternalAuthClientProfile) *degradedClientMessage {
 	degraded := apimeta.FindStatusCondition(conditions, "Degraded")
 	if degraded != nil && degraded.Status == metav1.ConditionTrue {
+		// Public clients have no secret, so OIDCClientSecretGet is not a
+		// meaningful degradation reason for them — skip it.
+		if client.Type == metadataapi.ExternalAuthClientTypePublic && degraded.Reason == coreapi.HostedClusterOIDCClientSecretGet {
+			return nil
+		}
 		message := mapDegradedReasonToMessage(degraded.Reason)
 		return &degradedClientMessage{
 			componentName: client.Component.Name,
